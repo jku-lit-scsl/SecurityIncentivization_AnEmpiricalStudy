@@ -62,12 +62,47 @@ expected_table9 <- matrix(c(2.73, 4.91, 1.81, 1.69), nrow = 2,
                           dimnames = list(c("CON", "SEC"), c("Backend", "Frontend")))
 stopifnot(identical(observed_table9, expected_table9))
 
+# CSV exports must round-trip the same numbers we just verified against the models.
+csv_tab3 <- read.csv(file.path(work_dir, "outputs/tables/tab3_language_by_layer.csv"),
+                     check.names = FALSE, stringsAsFactors = FALSE)
+stopifnot(identical(csv_tab3$Layer, c("Backend", "Frontend", "Sum")))
+stopifnot(identical(csv_tab3$Java,   c(11L, 0L, 11L)))
+stopifnot(identical(csv_tab3$Kotlin, c(3L, 14L, 17L)))
+stopifnot(identical(csv_tab3$Sum,    c(14L, 14L, 28L)))
+
+csv_tab4 <- read.csv(file.path(work_dir, "outputs/tables/tab4_security_issue_density_by_group.csv"),
+                     stringsAsFactors = FALSE)
+stopifnot(identical(csv_tab4$term, c("(Intercept)", "GroupSEC")))
+stopifnot(csv_tab4$estimate[csv_tab4$term == "GroupSEC"] == -0.3963)
+stopifnot(csv_tab4$p_value[csv_tab4$term == "GroupSEC"]  == "0.03415")
+stopifnot(csv_tab4$signif[csv_tab4$term == "GroupSEC"] == "*")
+
+csv_tab8 <- read.csv(file.path(work_dir, "outputs/tables/tab8_relative_change_security_issue_density.csv"),
+                     stringsAsFactors = FALSE)
+expected_tab8_terms <- c("(Intercept)", "GroupSEC", "LayerFrontend", "GroupSEC:LayerFrontend")
+expected_tab8_estimates <- c(2.7258, 2.1808, -0.9163, -2.3036)
+stopifnot(identical(csv_tab8$term, expected_tab8_terms))
+stopifnot(identical(csv_tab8$estimate, expected_tab8_estimates))
+
+csv_tab9 <- read.csv(file.path(work_dir, "outputs/tables/tab9_relative_change_means.csv"),
+                     check.names = FALSE, stringsAsFactors = FALSE)
+stopifnot(identical(csv_tab9$Group, c("CON", "SEC")))
+stopifnot(identical(csv_tab9$Backend,  c(2.73, 4.91)))
+stopifnot(identical(csv_tab9$Frontend, c(1.81, 1.69)))
+
 expected_outputs <- c(
   "outputs/figures/fig4_security_issue_density_by_group.pdf",
   "outputs/figures/fig5_loc_by_group_layer_sprint.pdf",
   "outputs/figures/fig6_security_issues_by_group_layer_sprint.pdf",
   "outputs/figures/fig7_security_issue_density_by_group_layer_sprint.pdf",
-  "outputs/figures/fig8_relative_change_security_issue_density.pdf"
+  "outputs/figures/fig8_relative_change_security_issue_density.pdf",
+  "outputs/tables/tab3_language_by_layer.csv",
+  "outputs/tables/tab4_security_issue_density_by_group.csv",
+  "outputs/tables/tab5_loc_by_group_layer_sprint.csv",
+  "outputs/tables/tab6_security_issues_by_group_layer_sprint.csv",
+  "outputs/tables/tab7_security_issue_density_by_group_layer_sprint.csv",
+  "outputs/tables/tab8_relative_change_security_issue_density.csv",
+  "outputs/tables/tab9_relative_change_means.csv"
 )
 stopifnot(all(file.exists(file.path(work_dir, expected_outputs))))
 

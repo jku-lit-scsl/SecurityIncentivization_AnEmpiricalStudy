@@ -38,8 +38,9 @@ analysis reproduction checks passed
 - `data/security_issue_density_by_sprint.csv`, `data/security_issue_density_change.csv` — derived analysis datasets.
 - `data/codebook.md` — column definitions and derivation formulas for both datasets.
 - `outputs/figures/` — regenerated Figures 4-8.
-- `reproduce_results.R` — reruns the analysis and regenerates Figures 4-8. It also prints Tables 3-9.
-- `verify_results.R` — checks data shape, the `IpLOC`, `Q21`, and `Q32` formulas, and the reported numerical results for Tables 3, 4, 8, and 9.
+- `outputs/tables/` — regenerated Tables 3-9 as CSVs.
+- `reproduce_results.R` — reruns the analysis and regenerates the figures and tables.
+- `verify_results.R` — checks the regenerated outputs against the paper's reported results.
 
 ## Scope
 

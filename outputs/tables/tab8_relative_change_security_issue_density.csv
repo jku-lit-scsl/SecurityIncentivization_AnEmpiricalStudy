@@ -1,0 +1,5 @@
+"term","estimate","std_error","statistic","p_value","signif"
+"(Intercept)",2.7258,1.8514,1.472,"0.1539",""
+"GroupSEC",2.1808,2.4492,0.89,"0.3821",""
+"LayerFrontend",-0.9163,2.6183,-0.35,"0.7294",""
+"GroupSEC:LayerFrontend",-2.3036,3.4637,-0.665,"0.5123",""
