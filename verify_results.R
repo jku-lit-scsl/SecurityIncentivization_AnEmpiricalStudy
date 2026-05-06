@@ -2,13 +2,19 @@ library(betareg)
 
 repo_dir <- getwd()
 work_dir <- tempfile("analysis-reproduction-")
-dir.create(work_dir)
-stopifnot(file.copy(file.path(repo_dir, "d0.csv"), file.path(work_dir, "d0.csv")))
-stopifnot(file.copy(file.path(repo_dir, "d1.csv"), file.path(work_dir, "d1.csv")))
+dir.create(file.path(work_dir, "data"), recursive = TRUE)
+stopifnot(file.copy(
+  file.path(repo_dir, "data", "security_issue_density_by_sprint.csv"),
+  file.path(work_dir, "data", "security_issue_density_by_sprint.csv")
+))
+stopifnot(file.copy(
+  file.path(repo_dir, "data", "security_issue_density_change.csv"),
+  file.path(work_dir, "data", "security_issue_density_change.csv")
+))
 old_wd <- setwd(work_dir)
 on.exit(setwd(old_wd), add = TRUE)
 
-source(file.path(repo_dir, "data_analysis.r"), local = environment())
+source(file.path(repo_dir, "reproduce_results.R"), local = environment())
 
 expected_d0_cols <- c("X", "ID", "Language", "LOC", "issues", "IpLOC", "grp", "Was", "Runde")
 expected_d1_cols <- c("X", "IDX", "grp", "lng1", "was1", "Q21", "Q32")
@@ -56,7 +62,13 @@ expected_table9 <- matrix(c(2.73, 4.91, 1.81, 1.69), nrow = 2,
                           dimnames = list(c("CON", "SEC"), c("Backend", "Frontend")))
 stopifnot(identical(observed_table9, expected_table9))
 
-expected_outputs <- c("res01_global.pdf", "loc.pdf", "iss.pdf", "ipl.pdf", "DQ.pdf")
+expected_outputs <- c(
+  "outputs/figures/fig4_security_issue_density_by_group.pdf",
+  "outputs/figures/fig5_loc_by_group_layer_sprint.pdf",
+  "outputs/figures/fig6_security_issues_by_group_layer_sprint.pdf",
+  "outputs/figures/fig7_security_issue_density_by_group_layer_sprint.pdf",
+  "outputs/figures/fig8_relative_change_security_issue_density.pdf"
+)
 stopifnot(all(file.exists(file.path(work_dir, expected_outputs))))
 
 cat("analysis reproduction checks passed\n")

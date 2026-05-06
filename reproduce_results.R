@@ -7,10 +7,12 @@
             "B-CON-2","F-CON-2","B-SEC-2","F-SEC-2",
             "B-CON-3","F-CON-3","B-SEC-3","F-SEC-3")
 
+  dir.create("outputs/figures", recursive = TRUE, showWarnings = FALSE)
+
 # --- read data
 
-  d0 = read.csv("d0.csv")
-  d1 = read.csv("d1.csv")
+  d0 = read.csv("data/security_issue_density_by_sprint.csv")
+  d1 = read.csv("data/security_issue_density_change.csv")
 
 # --- Sec. 5: Results ----------------------------------------------------------
 
@@ -21,7 +23,7 @@
 # --- Sec. 5.1: Global Effect --------------------------------------------------
 
 # Fig. 4: Boxplots of Issues/LOC
-  pdf("res01_global.pdf", width=8, height=5)
+  pdf("outputs/figures/fig4_security_issue_density_by_group.pdf", width=8, height=5)
   par(mar=c(2,2,0,0)+0.2)
       bx = boxplot(IpLOC ~ as.factor(grp),
                    col=cgrps,varwidth=TRUE,notch=TRUE,boxwex=0.5,data=d0)
@@ -37,7 +39,7 @@
 # --- Sec. 5.2: LOC ------------------------------------------------------------
 
 # Fig. 5: Boxplot LOC
-  pdf("loc.pdf", width=14, height=7)
+  pdf("outputs/figures/fig5_loc_by_group_layer_sprint.pdf", width=14, height=7)
   par(mar=c(2,4,0,0)+0.2)
       with(d0, boxplot(LOC ~ Was*grp*Runde,col=rep(cgrps,each=2),axes=FALSE))
       axis(1,at=1:12,labels=xlabs,font=2)
@@ -59,7 +61,7 @@
 # --- Sec. 5.3: Issues ---------------------------------------------------------
 
 # Fig. 6: Boxplot Issues
-  pdf("iss.pdf", width=14, height=7)
+  pdf("outputs/figures/fig6_security_issues_by_group_layer_sprint.pdf", width=14, height=7)
   par(mar=c(2,4,0,0)+0.2)
       with(d0, boxplot(issues ~ Was*grp*Runde,col=rep(cgrps,each=2),axes=FALSE,ylim=c(0,800)))
       axis(1,at=1:12,labels=xlabs,font=2)
@@ -77,7 +79,7 @@
 # --- Sec. 5.4: Issue Density Revisited (Issues/LOC) ---------------------------
 
 # Fig. 7
-  pdf("ipl.pdf", width=14, height=7)
+  pdf("outputs/figures/fig7_security_issue_density_by_group_layer_sprint.pdf", width=14, height=7)
   par(mar=c(2,4,0,0)+0.2)
       with(d0, boxplot(IpLOC ~ Was*grp*Runde,col=rep(cgrps,each=2),axes=FALSE))
       axis(1,at=1:12,labels=xlabs,font=2)
@@ -96,7 +98,7 @@
 # --- Sec 5.5: The Reward / DeltaQ ---------------------------------------------
 
 # Fig. 8
-  pdf("DQ.pdf", width=14, height=7)
+  pdf("outputs/figures/fig8_relative_change_security_issue_density.pdf", width=14, height=7)
   par(mar=c(2,4,0,0)+0.2)
       boxplot(Q32/Q21 ~grp*was1,col=cgrps,data=d1,ylim=c(0,10),ylab=expression(Q[32] / Q[21]))
       arrows(2,9.2,2,9.8,code=2,length=0.1,angle=12)
