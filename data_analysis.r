@@ -21,11 +21,11 @@
 # --- Sec. 5.1: Global Effect --------------------------------------------------
 
 # Fig. 4: Boxplots of Issues/LOC
-  windows(8,5)
+  pdf("res01_global.pdf", width=8, height=5)
   par(mar=c(2,2,0,0)+0.2)
       bx = boxplot(IpLOC ~ as.factor(grp),
                    col=cgrps,varwidth=TRUE,notch=TRUE,boxwex=0.5,data=d0)
-  savePlot("res01_global",type="pdf")
+  dev.off()
 
   bx$conf  # CI reported in Sec. 5.1
 
@@ -37,7 +37,7 @@
 # --- Sec. 5.2: LOC ------------------------------------------------------------
 
 # Fig. 5: Boxplot LOC
-  windows(14,7)
+  pdf("loc.pdf", width=14, height=7)
   par(mar=c(2,4,0,0)+0.2)
       with(d0, boxplot(LOC ~ Was*grp*Runde,col=rep(cgrps,each=2),axes=FALSE))
       axis(1,at=1:12,labels=xlabs,font=2)
@@ -46,7 +46,7 @@
       text( 2.5,11700,"Sprint 1",font=2,adj=c(0.5,1),cex=1.6)
       text( 6.5,11700,"Sprint 2",font=2,adj=c(0.5,1),cex=1.6)
       text(10.5,11700,"Sprint 3",font=2,adj=c(0.5,1),cex=1.6)
-  savePlot("loc",type="pdf")
+  dev.off()
 
 
 # Tab. 5: Issues by what, group, & sprint (poisson)
@@ -59,7 +59,7 @@
 # --- Sec. 5.3: Issues ---------------------------------------------------------
 
 # Fig. 6: Boxplot Issues
-  windows(14,7)
+  pdf("iss.pdf", width=14, height=7)
   par(mar=c(2,4,0,0)+0.2)
       with(d0, boxplot(issues ~ Was*grp*Runde,col=rep(cgrps,each=2),axes=FALSE,ylim=c(0,800)))
       axis(1,at=1:12,labels=xlabs,font=2)
@@ -68,7 +68,7 @@
       text( 2.5,770,"Sprint 1",font=2,adj=c(0.5,1),cex=2)
       text( 6.5,770,"Sprint 2",font=2,adj=c(0.5,1),cex=2)
       text(10.5,770,"Sprint 3",font=2,adj=c(0.5,1),cex=2)
-  savePlot("iss",type="pdf")
+  dev.off()
 
 # Tab. 6
   mod2 = glm(issues ~ as.factor(Was)*as.factor(grp)*as.factor(Runde),data=d0,family='poisson')
@@ -77,7 +77,7 @@
 # --- Sec. 5.4: Issue Density Revisited (Issues/LOC) ---------------------------
 
 # Fig. 7
-  windows(14,7)
+  pdf("ipl.pdf", width=14, height=7)
   par(mar=c(2,4,0,0)+0.2)
       with(d0, boxplot(IpLOC ~ Was*grp*Runde,col=rep(cgrps,each=2),axes=FALSE))
       axis(1,at=1:12,labels=xlabs,font=2)
@@ -86,7 +86,7 @@
       text( 2.5,0.4,"Sprint 1",font=2,adj=c(0.5,1),cex=2)
       text( 6.5,0.4,"Sprint 2",font=2,adj=c(0.5,1),cex=2)
       text(10.5,0.4,"Sprint 3",font=2,adj=c(0.5,1),cex=2)
-  savePlot("ipl",type="pdf")
+  dev.off()
 
 # Tab. 7
   mod3 = betareg(IpLOC ~ as.factor(Was)*as.factor(grp)*as.factor(Runde),data=d0)
@@ -96,12 +96,12 @@
 # --- Sec 5.5: The Reward / DeltaQ ---------------------------------------------
 
 # Fig. 8
-  windows(14,7)
+  pdf("DQ.pdf", width=14, height=7)
   par(mar=c(2,4,0,0)+0.2)
       boxplot(Q32/Q21 ~grp*was1,col=cgrps,data=d1,ylim=c(0,10),ylab=expression(Q[32] / Q[21]))
       arrows(2,9.2,2,9.8,code=2,length=0.1,angle=12)
       text(2,9,"+ 1 outlier at 24",cex=0.8,font=2)
-  savePlot("DQ",type="pdf")
+  dev.off()
 
 # Tab. 8
   mod4 = lm(Q32/Q21 ~grp*was1, data=d1)
