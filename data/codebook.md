@@ -10,7 +10,7 @@ The dataset has 84 rows, one for each combination of team, repository layer, and
 |---|---|
 | `ID` | Team identifier. |
 | `Language` | Implementation language at the assessment point: `Java` or `Kotlin`. |
-| `LOC` | Non-comment lines of code over `.java`, `.kt`, and `AndroidManifest.xml`. |
+| `LOC` | Non-comment lines of code over `.java` and `.kt` files. |
 | `issues` | Total scanner findings (Bearer + Detekt + mobsfscan). |
 | `IpLOC` | Security issue density, computed as `issues / LOC`. |
 | `grp` | Experimental condition: `CON` (control) or `SEC` (security-incentivized). |

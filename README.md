@@ -83,7 +83,7 @@ After each scan, we performed the manual checks described in the paper.
 
 ### LOC counting
 
-We count LOC over scanner-relevant source files: `.java`, `.kt`, and `AndroidManifest.xml`. We exclude line and block comments.
+A simple Python script computed LOC by iterating over `.java` and `.kt` source files and excluding line (`//`) and block (`/* ... */`) comments.
 
 ## Anonymization
 
